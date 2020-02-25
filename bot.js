@@ -1,5 +1,7 @@
 const WebSocket = require('ws')
-const ws = new WebSocket("wss://push.groupme.com/faye");
+var faye = require('faye')
+var ws = new faye.Client("https://push.groupme.com/faye");
+
 const res = require('./res.json')
 
 var modules = []
@@ -22,6 +24,21 @@ const Help = require('./help.js')
 modules.push(new Help.mod(modules))
 console.log('Added all modules!')
 
+ws.subscribe(`/user/${res.user_id}`, (message) => {
+        console.log(message.subject)
+	checkMessages(message.subject, res.token)
+}).then(() => { console.log("Ready!") })
+
+ws.addExtension({
+	outgoing: function(message, callback) {
+		if (message.channel !== '/meta/subscribe') return callback(message);
+		message.ext = message.ext || {};
+		message.ext.access_token = res.token;
+		message.ext.timestamp = Math.floor(Date.now() / 1000)
+		callback(message);
+	}
+})
+/*
 id = 0
 
 ws.on('message', (data) => {
@@ -52,7 +69,9 @@ ws.on('message', (data) => {
 		console.log('Ready!')
 	} else if (!data[0].data) {
 		console.log(data)
-	} else if (data[0].data.type === 'ping' || data[0].data.type === 'subscribe') {
+	} else if (data[0].data.type === 'ping') {
+
+	} else if (data[0].data.type === 'subscribe') {
 
 	} else {
 		console.log(data[0].data.subject)
@@ -65,7 +84,7 @@ ws.on('open', () => {
 	ws.send(JSON.stringify([{
 		channel: "/meta/handshake",
 		version: "1.0",
-		supportedConnectionTypes: ["websocket"],
+		supportedConnectionTypes: ["long-polling", "websocket"],
 		id: id
 	}]), (err) => { if (err) { console.log(err) } })
 	id++
@@ -79,7 +98,7 @@ ws.on('close', () => {
 	console.log('Disconnected')
 	ws = new WebSocket("wss://push.groupme.com/faye");
 })
-
+*/
 function checkMessages(message, token) {
 	console.log('Checking messages for an incoming message');
 	for (var module in modules)

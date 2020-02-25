@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "faye": "^1.2.4",
     "translate": "^1.1.1",
     "ws": "^7.2.1"
   }

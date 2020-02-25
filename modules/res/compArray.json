@@ -15,7 +15,8 @@
 	"I don't care what anyone else says",
 	"I'm only gonna say this once",
 	"I may get some hate for saying this, but I will anyway",
-	"You may not realize it, but"
+	"You may not realize it, but",
+	"If George Washington was alive today, he'd look at you and be like"
 	],
 
 "firstAdjectiveArray": [
@@ -29,16 +30,14 @@
 	"thiccer",
 	"buffer",
 	"higher",
-	"greater",
-	"smaller",
 	"thirstier",
-	"hungrier",
-	"better at Smash",
 	"more likely to cause a revolution in the lower class",
 	"more likely to seize the means of production",
 	"more neutral",
-	"higher in the chain of succession for the English throne"
-	],
+	"higher in the chain of succession for the English throne",
+	"embedded more deeply in my heart",
+	"more important to the economy"
+],
 
 "secondNounArray": [
 	"a bowl of oatmeal. But not like the instant stuff, the homemade kind",
@@ -63,11 +62,11 @@
 	"the greeter at my local Wal-Mart",
 	"the leading value brand",
 	"the People's Republic of China",
-	"allowing me to draw two additional cards"
+	"the entire #YangGang"
 	],
 
 "secondAdjectiveArray": [
-	"with a slice of cheese",
+	"with two slices of cheese",
 	"drenched in sauce",
 	"Legendary Edition",
 	"with honey on top",
@@ -82,6 +81,11 @@
 	"which explains a lot",
 	"and that's all I have to say about that",
 	"but wait, there's more!",
-	"and I see this as an absolute win!"
+	"and I see this as an absolute win!",
+	"but that could always change if you're not careful",
+	"which is fundamental to our understanding of the universe",
+	"even if Neil DeGrasse Tyson says it's not possible",
+	"see, you're an 8, and it's a 4.",
+	"like, so much more."
 	]
 }

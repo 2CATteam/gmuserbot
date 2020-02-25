@@ -1,13 +1,13 @@
 const https = require('https')
 
 exports.send = function sendMessage(toSend, token, message) {
-	if (toSend.length > 500) {
-		for (var i = 0; i < toSend.length / 500; i++) {
-			setTimeout(() => {
-				console.log("Sending")
-				sendMessage(toSend.substring(500 * i, 500*(i+1)), token, message)
-			}, i * 250)
+	if (toSend.length > 1000) {
+		for (var i = 0; i < toSend.length / 1000; i++) {
+			setTimeout(function(i, token, message) {
+				sendMessage(toSend.substring(1000 * i, 1000*(i+1)), token, message)
+			}.bind(null, i, token, message), i * 250)
 		}
+		return;
 	}
 	//Creates some options to let the message be sent with the GroupMe API
 	var options = {
@@ -49,12 +49,12 @@ exports.send = function sendMessage(toSend, token, message) {
 	let req = https.request(options,  (response) => {
 		console.log(`Status: ${response.statusCode}`);
 		response.setEncoding('utf8');
-		/*response.on('data', (chunk) => {
+		response.on('data', (chunk) => {
 			console.log(`Body: ${chunk}`);
 		})
 		response.on('end', () => {
 			console.log("End of conversation.");
-		})*/
+		})
 	});
 	//Logs errors and sends the request
 	req.on('error', (e) => {console.error(`Problem: ${e.message}`)});
