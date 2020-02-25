@@ -14,15 +14,15 @@ exports.mod = class glg {
 
 	checkMessage(message, token) {
 		if (gulagsRegex.test(message.text)) {
-			this.gulagify(message, token);
+			if (this.initGulag(message, token)) this.gulagify(message, token);
 			return true
 		}
 		else if (pardonRegex.test(message.text)) {
-			this.pardon(message, token);
+			if (this.initGulag(message, token)) this.pardon(message, token);
 			return true
 		}
 		else if (reportRegex.test(message.text)) {
-			this.sendReport(token);
+			if (this.initGulag(message, token)) this.sendReport(message, token);
 			return true
 		} else return false
 	}
@@ -39,16 +39,16 @@ exports.mod = class glg {
 			console.log(num);
 		}
 		console.log(key);
-		if (this.gulag[key]) {
-			this.gulag[key] = this.gulag[key] + num;
+		if (this.gulag[prompt.group_id][key]) {
+			this.gulag[prompt.group_id][key] = this.gulag[prompt.group_id][key] + num;
 		}
 		else {
-			this.gulag[key] = num;
+			this.gulag[prompt.group_id][key] = num;
 		}
 		fs.writeFileSync(path.join(__dirname, 'res', 'gulags.json'), JSON.stringify(this.gulag), 'utf-8');
 		var toSend = key;
 		toSend += " has been sent to the gulag. They are now serving ";
-		toSend += this.gulag[key];
+		toSend += this.gulag[prompt.group_id][key];
 		toSend += " lifetimes";
 		/*if (prestiges[key] > 0)
 		{
@@ -64,8 +64,8 @@ exports.mod = class glg {
 	pardon(prompt, token) {
 		let message = prompt.text;
 		var key = message.match(pardonRegex)[1].trim();
-		if (this.gulag[key]) {
-			this.gulag[key] = 0;
+		if (this.gulag[prompt.group_id][key]) {
+			this.gulag[prompt.group_id][key] = 0;
 			fs.writeFileSync(path.join(__dirname, 'res', 'gulags.json'), JSON.stringify(this.gulag), 'utf-8');
 			sender.send(key + " has been graciously pardoned!", token, prompt);
 		}
@@ -74,13 +74,13 @@ exports.mod = class glg {
 		}
 	}
 
-	sendReport(token) {
+	sendReport(prompt, token) {
 		var toSend = "Lifetimes in Gulag: \n\n";
-		for (var person in this.gulag) {
-			if (person && this.gulag[person] > 0) {
+		for (var person in this.gulag[prompt.group_id]) {
+			if (person && this.gulag[prompt.group_id][person] > 0) {
 				toSend += person;
 				toSend += ": ";
-				toSend += this.gulag[person];
+				toSend += this.gulag[prompt.group_id][person];
 				toSend += "\n";
 			}
 		}
@@ -89,6 +89,18 @@ exports.mod = class glg {
 		}
 		else {
 			sender.send("The gulags are empty, Comrade!", token, prompt);
+		}
+	}
+
+	initGulag(prompt, token) {
+		if (prompt.group_id) {
+			if (this.gulag[prompt.group_id] === undefined) {
+				this.gulag[prompt.group_id] = {}
+			}
+			return true
+		} else {
+			sender.send("You have to do /gulag commands in a chat, not just a DM", token, prompt)
+			return false
 		}
 	}
 }

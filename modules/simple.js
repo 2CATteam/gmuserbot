@@ -14,7 +14,7 @@ exports.mod = class simples {
 		this.helpString = "I say stuff in response to lots of things you say, but it's up to you to find out what they are!"
 	}
 
-	checkMessage(message) {
+	checkMessage(message, token) {
 		var toReturn = false;
 		triggers.forEach((value, key, map) => {
 			if (key.test(message.text)) {

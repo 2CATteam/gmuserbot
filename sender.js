@@ -47,7 +47,7 @@ exports.send = function sendMessage(toSend, token, message) {
 	}
 	//Creates the request to send the request
 	let req = https.request(options,  (response) => {
-		//console.log(`Status: ${response.statusCode}`);
+		console.log(`Status: ${response.statusCode}`);
 		response.setEncoding('utf8');
 		/*response.on('data', (chunk) => {
 			console.log(`Body: ${chunk}`);
@@ -71,7 +71,7 @@ exports.send_image = function send(toSend, image, token, message) {
 			'Content-Type': "application/json"
 		}
 	}
-	const guid = new Date().getTime().toString() + message.group_id.toString()
+	var guid = new Date().getTime().toString() + message.group_id
 	var body = {
 		"message": {
 			"source_guid": guid,
@@ -84,40 +84,40 @@ exports.send_image = function send(toSend, image, token, message) {
 			]
 		}
 	}
-	if (message.chat_id) {
-		guid = new Date().getTime().toString() + message.chat_id.toString()
-		options = {
-			hostname: 'api.groupme.com',
-			path: `/v3/direct_messages?token=${token}`,
-			method: 'POST',
-			headers: {
-				'Content-Type': "application/json"
-			}
-		}
-		body = {
-			"message": {
-				"source_guid": guid,
-				"text": toSend,
-				"recipient_id": sender_id,
+        if (message.chat_id) {
+                guid = new Date().getTime().toString() + message.chat_id.toString()
+                options = {
+                        hostname: 'api.groupme.com',
+                        path: `/v3/direct_messages?token=${token}`,
+                        method: 'POST',
+                        headers: {
+                                'Content-Type': "application/json"
+                        }
+                }
+                body = {
+                        "message": {
+                                "source_guid": guid,
+                                "text": toSend,
+                                "recipient_id": message.sender_id,
 				"attachments": [
-					{
-						"type": "image",
-						"url": image
-					}
-				]
-			}
-		}
-	}
+                                	{
+                                        	"type": "image",
+	                                        "url": image
+        	                        }
+                	        ]
+                        }
+                }
+        }
 	//Creates the request to send the request
 	let req = https.request(options,  (response) => {
 		console.log(`Status: ${response.statusCode}`);
 		response.setEncoding('utf8');
-		response.on('data', (chunk) => {
+		/*response.on('data', (chunk) => {
 			console.log(`Body: ${chunk}`);
 		})
 		response.on('end', () => {
 			console.log("End of conversation.");
-		})
+		})*/
 	});
 	//Logs errors and sends the request
 	req.on('error', (e) => {console.error(`Problem: ${e.message}`)});

@@ -26,6 +26,7 @@ id = 0
 
 ws.on('message', (data) => {
 	data = JSON.parse(data)
+	console.log(data)
 	if (data[0].channel === "/meta/handshake") {
 		ws.send(JSON.stringify([{
 			channel: "/meta/subscribe",
@@ -43,7 +44,7 @@ ws.on('message', (data) => {
 			clientId: data[0].clientId,
 			connectionType: "websocket",
 			id: id
-		}]), (err) => { if (err) { 
+		}]), (err) => { if (err) {
 			console.log(err)
 			console.log(data[0])
 			return
@@ -52,7 +53,7 @@ ws.on('message', (data) => {
 	} else if (!data[0].data) {
 		console.log(data)
 	} else if (data[0].data.type === 'ping' || data[0].data.type === 'subscribe') {
-		
+
 	} else {
 		console.log(data[0].data.subject)
 		checkMessages(data[0].data.subject, res.token)
