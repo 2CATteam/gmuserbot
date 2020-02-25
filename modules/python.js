@@ -1,18 +1,18 @@
 const fs = require('fs');
 const https = require('https')
-const sender = require('../sender.js').send
+const sender = require('../sender.js')
 
-const regex = /^\/compile\s?python\s?\n+/i;
+const regex = /^\/compile\s?python\s*\n*/i;
 const stopRegex = /^\/stop/i;
 
 exports.mod = class python {
 	constructor() {
 		this.name = "Python"
-		this.helpString = "/compile Python \\n [code] will compile and run some Python code!"
+		this.helpString = "/compile Python [code] will compile and run some Python code!"
 		this.processes = []
 	}
 
-	checkMessage(message) {
+	checkMessage(message, token) {
 		if (stopRegex.test(message.text)) {
 			for (var i in this.processes) {
 				try {
