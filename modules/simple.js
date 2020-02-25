@@ -5,7 +5,9 @@ const triggers = new Map([
 	[/^(press|type|say)\s?(.+)\s?(to)?/i, (m) => { return m.match(/^(press|type|say)\s?(.+)\s?(to)?/i)[2] }],
 	[/^\/dislike/i, (m) => { return "Your dislike has been noted and recorded." }],
 	[/creeper/i, (m) => { return "AW MAN" }],
-	[/big\s?$/i, (m) => { return "OOF" }]
+	[/big\s?$/i, (m) => { return "OOF" }],
+	[/69420|42069/i, (m) => { return "Nice." }],
+	[/ram\s?ranch/i, (m) => { return "I'm actually allergic to ranch so I can't sorry" }]
 ])
 
 exports.mod = class simples {

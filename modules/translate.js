@@ -6,7 +6,7 @@ const translateRegex = /^\/translate\s"(.+)"\s(\S+)\s?(\S+)?/i;
 
 exports.mod = class translator {
 	constructor() {
-		this.helpString = "/translate \"[something]\" [country code] will translate something to a different language, using Yandex (So if results look weird, or like they weren't translated at all, it's their fault, not mine\n"
+		this.helpString = "/translate \"[something]\" [language code] will translate something to a different language. It uses the ISO 639-1 language codes, and is translated using Yandex (It's buggy but free)\n"
 		this.name = "translate"
 	}
 
@@ -17,6 +17,10 @@ exports.mod = class translator {
 			const text = matches[1]
 			var fromFlag = 'en'
 			var toFlag = matches[2]
+			if (toFlag = 'uwu') {
+				sender.send(this.uwuify(text), token, message)
+				return true
+			}
 			if (matches.length > 3) {
 				if (matches[3] != undefined) {
 					fromFlag = matches[2]
@@ -34,4 +38,13 @@ exports.mod = class translator {
 			return true
 		} else return false
 	}
+
+        uwuify(string) {
+                string = string.replace(/[rl]/g, 'w')
+                string = string.replace(/[RL]/g, 'W')
+                string = string.replace(/t/g, 'd')
+                string = string.replace(/T/g, 'D')
+                return(string)
+        }
+
 }

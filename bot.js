@@ -101,6 +101,7 @@ ws.on('close', () => {
 */
 function checkMessages(message, token) {
 	console.log('Checking messages for an incoming message');
+	if (message.text) { message.text = message.text.replace(/“|”/g,'"').replace(/‘|’/g,"'") }
 	for (var module in modules)
 	{
 		if (modules[module].checkMessage(message, token)) {

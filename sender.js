@@ -5,7 +5,7 @@ exports.send = function sendMessage(toSend, token, message) {
 		for (var i = 0; i < toSend.length / 1000; i++) {
 			setTimeout(function(i, token, message) {
 				sendMessage(toSend.substring(1000 * i, 1000*(i+1)), token, message)
-			}.bind(null, i, token, message), i * 250)
+			}.bind(null, i, token, message), i * 500)
 		}
 		return;
 	}
@@ -84,30 +84,28 @@ exports.send_image = function send(toSend, image, token, message) {
 			]
 		}
 	}
-        if (message.chat_id) {
-                guid = new Date().getTime().toString() + message.chat_id.toString()
-                options = {
-                        hostname: 'api.groupme.com',
-                        path: `/v3/direct_messages?token=${token}`,
-                        method: 'POST',
-                        headers: {
-                                'Content-Type': "application/json"
-                        }
-                }
-                body = {
-                        "message": {
-                                "source_guid": guid,
-                                "text": toSend,
-                                "recipient_id": message.sender_id,
-				"attachments": [
-                                	{
-                                        	"type": "image",
-	                                        "url": image
-        	                        }
-                	        ]
-                        }
-                }
-        }
+	if (message.chat_id) {
+		guid = new Date().getTime().toString() + message.chat_id.toString()
+		options = {
+			hostname: 'api.groupme.com',
+			path: `/v3/direct_messages?token=${token}`,
+			method: 'POST',
+			headers: {
+				'Content-Type': "application/json"
+			}
+		}
+		body = {
+			"message": {
+				"source_guid": guid,
+				"text": toSend,
+				"recipient_id": message.sender_id,
+				"attachments": [{
+					"type": "image",
+					"url": image
+				}]
+			}
+		}
+	}
 	//Creates the request to send the request
 	let req = https.request(options,  (response) => {
 		console.log(`Status: ${response.statusCode}`);
@@ -123,3 +121,60 @@ exports.send_image = function send(toSend, image, token, message) {
 	req.on('error', (e) => {console.error(`Problem: ${e.message}`)});
 	req.end(JSON.stringify(body));
 };
+
+exports.like = function like(message, token) {
+	options = {
+		hostname: 'api.groupme.com',
+		path: `/v3/messages/${message.chat_id ? message.chat_id : message.group_id}/${message.id}/like?token=${token}`,
+		method: 'POST',
+		headers: {
+			'Content-Type': "application/json"
+		}
+	}
+	//Creates the request to send the request
+	let req = https.request(options,  (response) => {
+		console.log(`Status: ${response.statusCode}`);
+		response.setEncoding('utf8');
+		response.on('data', (chunk) => {
+			console.log(`Body: ${chunk}`);
+		})
+		response.on('end', () => {
+			console.log("End of conversation.");
+		})
+	});
+	//Logs errors and sends the request
+	req.on('error', (e) => {console.error(`Problem: ${e.message}`)});
+	req.end();
+}
+
+exports.nickname = function nickname(name, token, message) {
+        var body = {
+                "membership": {
+			"nickname": `${name}`
+                }
+        }
+        var options = {
+                hostname: 'api.groupme.com',
+                path: `/v3/groups/${message.group_id}/memberships/update?token=${token}`,
+                method: 'POST',
+                headers: {
+                        'Content-Type': "application/json"
+                }
+        }
+	console.log(body)
+	console.log(options)
+        //Creates the request to send the request
+        let req = https.request(options,  (response) => {
+                console.log(`Status: ${response.statusCode}`);
+                response.setEncoding('utf8');
+                response.on('data', (chunk) => {
+                        console.log(`Body: ${chunk}`);
+                })
+                response.on('end', () => {
+                        console.log("End of conversation.");
+                })
+        });
+        //Logs errors and sends the request
+        req.on('error', (e) => {console.error(`Problem: ${e.message}`)});
+        req.end(JSON.stringify(body));
+}
