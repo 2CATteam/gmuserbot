@@ -18,6 +18,7 @@ exports.mod = class dasani {
 	}
 
 	checkMessage(message, token) {
+		if (message.system || message.attachments.length > 0) { return false }
 		var toReturn = ""
 		let messageText = message.text;
 		if (messageText && (message.sender_id != require('../res.json').user_id)) {

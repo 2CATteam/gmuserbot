@@ -5,7 +5,7 @@ const eggs = require('./res/paths.json').paths
 exports.mod = class egggggggggg {
 	constructor() {
 		this.helpString = "/egg"
-		this.name = "egg"
+		this.name = "Egg"
 	}
 
 	checkMessage(eggg, eggggg) {

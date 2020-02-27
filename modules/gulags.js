@@ -8,7 +8,7 @@ const sender = require('../sender.js');
 exports.mod = class glg {
 	constructor() {
 		this.gulag = require('./res/gulags.json');
-		this.name = "gulags"
+		this.name = "Gulags"
 		this.helpString = "/gulag @[person] [number] will send a person to the gulags.\n/pardon @[person] will remove them from the gulags.\n/report will tell you how many people are currently in the gulags."
 	}
 
