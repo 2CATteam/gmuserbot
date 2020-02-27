@@ -4,7 +4,7 @@ const fs = require('fs')
 
 exports.mod = class pin {
 	constructor() {
-		this.name = 'pin'
+		this.name = 'Pin'
 		this.helpString = '/pin [something] will remember a message for you, and /pins will tell you all the messages the bot was told to remember.'
 	}
 

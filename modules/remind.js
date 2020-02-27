@@ -6,7 +6,7 @@ const fs = require('fs')
 
 exports.mod = class comp {
 	constructor() {
-		this.name = 'remind'
+		this.name = 'Remind'
 		this.helpString = '/remindme [something] in x days, y seconds, etc... will do exactly what you would expect it to.'
 		this.messages = []
 		for (var i in scheduled.jobs)

@@ -5,7 +5,7 @@ const sender = require('../sender.js')
 
 exports.mod = class comp {
 	constructor() {
-		this.name = "comp"
+		this.name = "Comp"
 		this.helpString = "/comp [something] will generate a random compliment(?)"
 	}
 

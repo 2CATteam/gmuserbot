@@ -6,7 +6,7 @@ const sender = require('../sender.js');
 
 exports.mod = class roast {
 	constructor() {
-		this.name = "roast"
+		this.name = "Roast"
 		this.helpString = "/roast [something] will generate a random insult!"
 	}
 

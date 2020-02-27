@@ -7,7 +7,7 @@ const translateRegex = /^\/translate\s"(.+)"\s(\S+)\s?(\S+)?/i;
 exports.mod = class translator {
 	constructor() {
 		this.helpString = "/translate \"[something]\" [language code] will translate something to a different language. It uses the ISO 639-1 language codes, and is translated using Yandex (It's buggy but free)\n"
-		this.name = "translate"
+		this.name = "Translate"
 	}
 
 	checkMessage(message, token) {
