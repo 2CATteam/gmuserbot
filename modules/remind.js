@@ -68,6 +68,7 @@ exports.mod = class comp {
 		var text = message.text.match(reminderRegex)[1]
 		console.log(text)
 		this.scheduleMessage(date, text, token, message)
+		sender.like(message, token)
 		sender.send(`I will remind you of this:\n${text}\nOn this date:\n${date}`, token, message)
 	}
 }

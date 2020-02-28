@@ -9,7 +9,8 @@ exports.mod = class nickname {
 	checkMessage(message, token) {
 		if (message.text) {
 			const name = message.text.match(/\/nickname\s?(.+)/i)
-			if (name && !message.system) {
+			if (name && !message.system && message.sender_id !== require('../res.json').user_id) {
+				sender.like(message, token)
 				if (!message.group_id) {
 					sender.send("I can only do that in a group chat", token, message)
 					return true;

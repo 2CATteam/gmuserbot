@@ -30,6 +30,7 @@ console.log('Added all modules!')
 ws.subscribe(`/user/${res.user_id}`, (message) => {
         console.log(message.subject)
 	//console.log(message.subject.attachments[0])
+	if (message.type === 'ping') { return }
 	checkMessages(message.subject, res.token)
 }).then(() => { console.log("Ready!") })
 
@@ -45,12 +46,15 @@ ws.addExtension({
 
 function checkMessages(message, token) {
 	console.log('Checking messages for an incoming message');
-	if (message.text) { message.text = message.text.replace(/“|”/g,'"').replace(/‘|’/g,"'") }
-	for (var module in modules)
-	{
-		if (message.group_id) { if (modules[module].name) { if (disabled[message.group_id]) { if (disabled[message.group_id].includes(modules[module].name.toLowerCase())) { continue }}}}
-		if (modules[module].checkMessage(message, token)) {
-			console.log('Message is being handled by ' + modules[module].name)
+	if (message) {
+		if (message.text) { message.text = message.text.replace(/“|”/g,'"').replace(/‘|’/g,"'") }
+		for (var module in modules)
+		{
+			if (message.group_id) { if (modules[module].name) { if (disabled[message.group_id]) { if (disabled[message.group_id].includes(modules[module].name.toLowerCase())) { continue }}}}
+			if (modules[module].checkMessage(message, token)) {
+				console.log('Message is being handled by ' + modules[module].name)
+			}
 		}
+		disabled = require('./disabled.json')
 	}
 }

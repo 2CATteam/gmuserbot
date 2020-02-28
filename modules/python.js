@@ -26,6 +26,7 @@ exports.mod = class python {
 			return true
 		}
 		if (regex.test(message.text)) {
+			sender.like(message, token)
 			var that = this
 			var code = message.text
 		        var string = message.text.match(regex)[0]
