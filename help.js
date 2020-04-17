@@ -14,7 +14,7 @@ exports.mod = class helpGener {
 	checkMessage(message, token) {
 		if (regex.test(message.text)) {
 			var helpString = "Here are all the commands I can respond to: \n\n"
-			var id = message.group_id.toString()
+			var id = message.group_id
 			if (!id) { id = message.chat_id }
 			for (var i in this.bots) {
 				if (disabled[id]) {
