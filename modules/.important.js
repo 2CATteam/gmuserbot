@@ -5,19 +5,20 @@ const https = require('https')
 
 exports.mod = class atev {
 	constructor() {
-		this.name = '@muted'
-		this.helpString = '@muted will do an @ mention for everyone who has this chat muted. To reduce spam, only owners and admins can use this.\n@all does the same thing for everyone, following the same rules'
+		this.name = '!important'
+		this.helpString = "If you start a message with !important, I'll ask people to acknowledge the message by liking it and, if they don't, I'll remind them one, three, and twenty-four hours after the message is sent."
 	}
 
 	checkMessage(message, token) {
 		if (!message.text) {return false}
-		var text = message.text.match(/@(muted|all)/i)
+		var text = message.text.match(/^!important/i)
 		if (text && (message.sender_id != require('../res.json').user_id)) {
-			console.log('Got here')
 			if (!message.group_id) {
 				sender.send("Cannot do that in DMs", token, message)
 				return true
 			}
+			sender.like(message, token);
+			sender.send("Please acknowledge the above message by liking it.", token, message)
 			sender.getMembers(message, token, (result) => {
 				if (!result.response) { return true }
 				if (!result.response.members) { return true }

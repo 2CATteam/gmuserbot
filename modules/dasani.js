@@ -18,7 +18,7 @@ exports.mod = class dasani {
 	}
 
 	checkMessage(message, token) {
-		if (message.system || message.attachments.length > 0) { return false }
+		if (message.attachments) { if (message.system || message.attachments.length > 0) { return false } }
 		var toReturn = ""
 		let messageText = message.text;
 		if (messageText && (message.sender_id != require('../res.json').user_id)) {
@@ -62,7 +62,7 @@ exports.mod = class dasani {
 					toReturn += 'Dasani generated over a BILLION dollars in sales in 2017!';
 				}
 				else if (randomMessage<.8) {
-					toReturn += 'It lead to this bot!';
+					toReturn += 'It led to this bot!';
 				}
 				else if (randomMessage<.9) {
 					toReturn += 'It, combined with all the other bottled water brands, helped bottled water overtake soda as the most sold drink in the US in 2016! Congrats on getting healthier, America!';
