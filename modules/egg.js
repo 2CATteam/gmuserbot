@@ -1,17 +1,17 @@
-const eg = require('../sender.js');
 const egg = /^\/egg/ig;
 const eggs = require('./res/paths.json').paths
 
 exports.mod = class egggggggggg {
-	constructor() {
+	constructor(eg) {
 		this.helpString = "/egg"
 		this.name = "Egg"
+		this.eg = eg
 	}
 
-	checkMessage(eggg, eggggg) {
+	checkMessage(eggg) {
 		if (!egg.test(eggg.text)) { return false }
 		let egggg = Math.floor(Math.random() * eggs.length);
-		eg.send_image("egg", eggs[egggg], eggggg, eggg)
+		this.eg.sendImage("egg", eggs[egggg], eggg)
 		return true
 	}
 }

@@ -1,0 +1,32 @@
+["Did you know that ", [
+	["the ", ["Fall ","Spring "], "equinox "],
+	["the ", ["Winter ", "Summer "], ["Solstice ", "Olympics "]],
+	["the ", ["earliest ", "latest "], ["sunrise ", "sunset "]],
+	["Daylight ", ["Saving ", "Savings "], "Time "],
+	["Leap ", ["Day ","Year "]],
+	"Easter ",
+	["the ", ["Harvest ", "Super ", "Blood "], "Moon "],
+	"Toyota Truck Month ",
+	"Shark Week "
+], [
+	["happens ", ["earlier ", "later ", "at the wrong time "], "every year "],
+	["drifts out of sync with the ", ["Sun ", "Moon ", "Zodiac ", [["Gregorian ", "Mayan ", "Lunar ", "iPhone "], "Calendar "], "Atomic Clock in Colorado "]],
+	["might ", ["not happen ", "happen twice "], "this year "]
+], "because of ", [
+	["time zone legislation in ", ["Indiana", "Arizona", "Russia"]],
+	"a decree by the Pope in the 1500s",
+	[
+		["precession ", "libration ", "nutation ", "libation ", "eccentricity ", "obliquity "],
+		"of the ", ["Moon", "Sun", "Earth's Axis", "Equator", "Prime Meridian", "International Date Line", "Mason-Dixon Line"]
+	],
+	"Magnetic Field Reversal",
+	["an arbitrary decision by ", ["Benjamin Franklin", "Isaac Newton", "FDR"]]
+], "? Apparently ", [
+	"it causes a predicatable increase in car accidents.",
+	"that's why we have leap seconds.",
+	"scientists are really worried.",
+	["it was even more extreme during the ", ["Bronze Age.", "Ice Age.", "Cretaceous.", "1990s."]],
+	["there's a proposal to fix it, but it ", ["will never happen.", "actually makes things worse.", "is stalled in Congress.", "might be unconstitutional."]],
+	"it's getting worse and no one knows why."
+]
+]

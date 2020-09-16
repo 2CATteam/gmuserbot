@@ -1,15 +1,15 @@
 const arrays = require('./res/compArray.json');
 const regex = /^\/comp(?!ile)\s?/;
 const spamRegex = /^(\/comp\s?|\/roast\s?){4,}/;
-const sender = require('../sender.js')
 
 exports.mod = class comp {
-	constructor() {
+	constructor(sender) {
 		this.name = "Comp"
 		this.helpString = "/comp [something] will generate a random compliment(?)"
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (regex.test(message.text) && !spamRegex.test(message.text)) {
 			var toReturn = message.text.substring(5,message.text.length);
 			toReturn += " ";
@@ -25,7 +25,7 @@ exports.mod = class comp {
 			randomInt = Math.floor(Math.random() * arrays.secondAdjectiveArray.length);
 			toReturn += arrays.secondAdjectiveArray[randomInt];
 			toReturn += " ;)";
-			sender.send(toReturn, token, message);
+			this.sender.send(toReturn, message);
 			return true;
 		}
 		return false;

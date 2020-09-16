@@ -5,6 +5,8 @@ var disabled = require('./disabled.json')
 disabled.possible = []
 
 const res = require('./res.json')
+var SenderClass = require('./sender.js')
+var sender = new SenderClass(res.token)
 
 var modules = []
 
@@ -15,7 +17,7 @@ console.log('Starting bot!')
 require('fs').readdirSync('./modules').forEach((file) => {
 	if (fileRegex.test(file)) {
 		let ClassFile = require('./modules/' + file)
-		let toAdd = new ClassFile.mod()
+		let toAdd = new ClassFile.mod(sender)
 		console.log(' Added new module: ' + toAdd.name)
 		modules.push(toAdd)
 		if (toAdd.name) { disabled.possible.push(toAdd.name.toLowerCase()) }
@@ -46,8 +48,10 @@ ws.addExtension({
 
 function checkMessages(message, token) {
 	console.log('Checking messages for an incoming message');
+	//console.log(message)
 	if (message) {
 		if (message.text) { message.text = message.text.replace(/“|”/g,'"').replace(/‘|’/g,"'") }
+		if (message.text) { if (message.text[0] == "‎") { return }}
 		for (var module in modules)
 		{
 			if (message.group_id) { if (modules[module].name) { if (disabled[message.group_id]) { if (disabled[message.group_id].includes(modules[module].name.toLowerCase())) { continue }}}}

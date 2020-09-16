@@ -1,21 +1,20 @@
-const sender = require('../sender.js')
-
 exports.mod = class nickname {
-	constructor() {
+	constructor(sender) {
 		this.name = "Nickname"
 		this.helpString = "/nickname [something] will tell me to change my name. Note that this can fail."
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (message.text) {
 			const name = message.text.match(/\/nickname\s?(.+)/i)
 			if (name && !message.system && message.sender_id !== require('../res.json').user_id) {
-				sender.like(message, token)
+				this.sender.like(message)
 				if (!message.group_id) {
-					sender.send("I can only do that in a group chat", token, message)
+					this.sender.send("I can only do that in a group chat", message)
 					return true;
 				}
-				sender.nickname(name[1], token, message);
+				this.sender.nickname(name[1], message);
 				return true;
 			} else {
 				return false

@@ -1,21 +1,20 @@
 const reminderRegex = /^\/remind\s?Me\s(?:to\s)?(.+)\sin\s/i
 var scheduler = require('node-schedule');
 const scheduled = require('./res/reminders.json')
-const sender = require('../sender.js')
 const fs = require('fs')
 
 exports.mod = class comp {
-	constructor() {
+	constructor(sender) {
 		this.name = 'Remind'
 		this.helpString = '/remindme [something] in x days, y seconds, etc... will do exactly what you would expect it to.'
 		this.messages = []
-		for (var i in scheduled.jobs)
-		{
+		for (var i in scheduled.jobs) {
 			const date = new Date(scheduled.jobs[i].time)
 			if (date > new Date()) {
 				this.scheduleMessage(date, scheduled.jobs[i].text, scheduled.jobs[i].token, scheduled.jobs[i].message)
 			}
 		}
+		this.sender = sender
 	}
 
 	checkMessage(message, token) {
@@ -68,7 +67,7 @@ exports.mod = class comp {
 		var text = message.text.match(reminderRegex)[1]
 		console.log(text)
 		this.scheduleMessage(date, text, token, message)
-		sender.like(message, token)
-		sender.send(`I will remind you of this:\n${text}\nOn this date:\n${date}`, token, message)
+		this.sender.like(message)
+		this.sender.send(`I will remind you of this:\n${text}\nOn this date:\n${date}`, message)
 	}
 }

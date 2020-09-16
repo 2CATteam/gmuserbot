@@ -1,14 +1,14 @@
 var pins = require('./res/pins.json')
-const sender = require('../sender.js')
 const fs = require('fs')
 
 exports.mod = class pin {
-	constructor() {
+	constructor(sender) {
 		this.name = 'Pin'
 		this.helpString = '/pin [something] will remember a message for you, and /pins will tell you all the messages the bot was told to remember.'
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (!message.text) {return false}
 		var text = message.text.match(/^\/pin\s(.+)/i)
 		var num = message.text.match(/^\/unpin\s?(\d+)\s*$/i)
@@ -23,13 +23,13 @@ exports.mod = class pin {
 				}
 			}
 			toSend += "\nTo add messages, use /pin [something]. To remove a message, use /unpin [number]"
-			sender.send(toSend, token, message)
+			this.sender.send(toSend, message)
 		} else if (text && (message.sender_id != require('../res.json').user_id)) {
-			sender.like(message, token)
+			this.sender.like(message)
 			this.pin(message, message.name + ": " + text[1])
 			return true
 		} else if (num) {
-			sender.like(message, token)
+			this.sender.like(message)
 			var id = message.group_id
 			if (!id) { id = message.chat_id }
 			if (pins[id]) { if (parseInt(num[1])-1 < pins[id].length) {

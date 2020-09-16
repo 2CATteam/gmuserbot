@@ -1,16 +1,15 @@
 const insultArray = require('./res/insultArray.json');
 const regex = /^\/roast\s?/i;
 const spamRegex = /^(\/comp\s?|\/roast\s?){4,}/i;
-const sender = require('../sender.js');
-
 
 exports.mod = class roast {
-	constructor() {
+	constructor(sender) {
 		this.name = "Roast"
 		this.helpString = "/roast [something] will generate a random insult!"
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (regex.test(message.text) && !spamRegex.test(message.text))
 		{
 			var randomInt = 0
@@ -41,7 +40,7 @@ exports.mod = class roast {
 				toReturn += insultArray.secondInsultArray[randomInt];
 				toReturn += "!";
 			}
-			sender.send(toReturn, token, message);
+			this.sender.send(toReturn, message);
 			return true
 		} else return false
 	}

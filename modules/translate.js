@@ -1,13 +1,13 @@
 const https = require('https')
 const translate = require('translate')
-const sender = require('../sender.js');
 
 const translateRegex = /^\/translate\s"(.+)"\s(\S+)\s?(\S+)?/i;
 
 exports.mod = class translator {
-	constructor() {
+	constructor(sender) {
 		this.helpString = "/translate \"[something]\" [language code] will translate something to a different language. It uses the ISO 639-1 language codes, and is translated using Yandex (It's buggy but free)\n"
 		this.name = "Translate"
+		this.sender = sender
 	}
 
 	checkMessage(message, token) {
@@ -18,7 +18,7 @@ exports.mod = class translator {
 			var fromFlag = 'en'
 			var toFlag = matches[2]
 			if (toFlag = 'uwu') {
-				sender.send(this.uwuify(text), token, message)
+				this.sender.send(this.uwuify(text), message)
 				return true
 			}
 			if (matches.length > 3) {
@@ -29,11 +29,11 @@ exports.mod = class translator {
 			}
 			try {
 				translate(text, { from: fromFlag, to: toFlag, engine: 'yandex', key: yandexKey } ).then((result) => {
-					sender.send(result, token, message)
+					this.sender.send(result, message)
 				})
 			} catch(err) {
 				console.log(err)
-				sender.send("Looks like there was an error with your request. Are you sure the to and from fields are okay?", token, message)
+				this.sender.send("Looks like there was an error with your request. Are you sure the to and from fields are okay?", message)
 			}
 			return true
 		} else return false

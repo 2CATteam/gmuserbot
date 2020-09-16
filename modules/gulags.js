@@ -3,16 +3,16 @@ const pardonRegex = /^\/pardon\s?@(.+?)\s?$/i;
 const reportRegex = /^\/report/i;
 var fs = require('fs');
 var path = require('path');
-const sender = require('../sender.js');
 
 exports.mod = class glg {
-	constructor() {
+	constructor(sender) {
 		this.gulag = require('./res/gulags.json');
 		this.name = "Gulags"
 		this.helpString = "/gulag @[person] [number] will send a person to the gulags.\n/pardon @[person] will remove them from the gulags.\n/report will tell you how many people are currently in the gulags."
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (gulagsRegex.test(message.text)) {
 			if (this.initGulag(message, token)) this.gulagify(message, token);
 			return true
@@ -27,7 +27,7 @@ exports.mod = class glg {
 		} else return false
 	}
 
-	gulagify(prompt, token) {
+	gulagify(prompt) {
 		var message = prompt.text;
 		var key = message.match(gulagsRegex)[1].trim();
 		var num = 1;
@@ -58,23 +58,23 @@ exports.mod = class glg {
 		}*/
 		toSend += "!";
 		console.log(this.gulag);
-		sender.send(toSend, token, prompt);
+		this.sender.send(toSend, prompt);
 	}
 
-	pardon(prompt, token) {
+	pardon(prompt) {
 		let message = prompt.text;
 		var key = message.match(pardonRegex)[1].trim();
 		if (this.gulag[prompt.group_id][key]) {
 			this.gulag[prompt.group_id][key] = 0;
 			fs.writeFileSync(path.join(__dirname, 'res', 'gulags.json'), JSON.stringify(this.gulag), 'utf-8');
-			sender.send(key + " has been graciously pardoned!", token, prompt);
+			this.sender.send(key + " has been graciously pardoned!", prompt);
 		}
 		else {
-			sender.send(key + " is not in the gulag!", token, prompt);
+			this.sender.send(key + " is not in the gulag!", prompt);
 		}
 	}
 
-	sendReport(prompt, token) {
+	sendReport(prompt) {
 		var toSend = "Lifetimes in Gulag: \n\n";
 		for (var person in this.gulag[prompt.group_id]) {
 			if (person && this.gulag[prompt.group_id][person] > 0) {
@@ -85,21 +85,21 @@ exports.mod = class glg {
 			}
 		}
 		if (toSend.length > 25) {
-			sender.send(toSend, token, prompt);
+			this.sender.send(toSend, prompt);
 		}
 		else {
-			sender.send("The gulags are empty, Comrade!", token, prompt);
+			this.sender.send("The gulags are empty, Comrade!", prompt);
 		}
 	}
 
-	initGulag(prompt, token) {
+	initGulag(prompt) {
 		if (prompt.group_id) {
 			if (this.gulag[prompt.group_id] === undefined) {
 				this.gulag[prompt.group_id] = {}
 			}
 			return true
 		} else {
-			sender.send("You have to do /gulag commands in a chat, not just a DM", token, prompt)
+			this.sender.send("You have to do /gulag commands in a chat, not just a DM", prompt)
 			return false
 		}
 	}

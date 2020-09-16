@@ -8,16 +8,15 @@ const aquafinaRegex = /aquafina/i;
 
 const badRegex = /(ozarka)|(pure life)|(nestle)|(smart water)|(fiji)/i;
 
-const sender = require('../sender.js')
-
 exports.mod = class dasani {
 
-	constructor() {
+	constructor(sender) {
 		this.name = 'Dasani'
 		this.helpString = "If you mention Dasani or some other water brand, I may react!"
+		this.sender = sender
 	}
 
-	checkMessage(message, token) {
+	checkMessage(message) {
 		if (message.attachments) { if (message.system || message.attachments.length > 0) { return false } }
 		var toReturn = ""
 		let messageText = message.text;
@@ -62,7 +61,7 @@ exports.mod = class dasani {
 					toReturn += 'Dasani generated over a BILLION dollars in sales in 2017!';
 				}
 				else if (randomMessage<.8) {
-					toReturn += 'It led to this bot!';
+					toReturn += 'It just tastes really, really good.';
 				}
 				else if (randomMessage<.9) {
 					toReturn += 'It, combined with all the other bottled water brands, helped bottled water overtake soda as the most sold drink in the US in 2016! Congrats on getting healthier, America!';
@@ -73,7 +72,7 @@ exports.mod = class dasani {
 			}
 		}
 		if (toReturn != "") {
-			sender.send(toReturn, token, message);
+			this.sender.send(toReturn, message);
 			return true;
 		} else return false;
 	}
