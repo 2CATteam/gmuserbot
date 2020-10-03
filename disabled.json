@@ -1,6 +1,5 @@
 {
 	"14538582": [
-		"python",
 		"dasani"
 	],
 	"51655752": [
@@ -27,10 +26,11 @@
 	"possible": [
 		"@muted",
 		"calendar",
+		"cham",
+		"codenames",
 		"comp",
 		"dasani",
 		"egg",
-		"game",
 		"gulags",
 		"roast",
 		"nickname",

@@ -26,7 +26,7 @@ require('fs').readdirSync('./modules').forEach((file) => {
 
 const Help = require('./help.js')
 
-modules.push(new Help.mod(modules))
+modules.push(new Help.mod(modules, sender))
 console.log('Added all modules!')
 
 ws.subscribe(`/user/${res.user_id}`, (message) => {

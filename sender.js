@@ -8,10 +8,11 @@ module.exports = class Sender {
 	}
 
 	async send(toSend, message) {
+		//console.log(toSend)
 		return new Promise(async (resolve, reject) => {
 			if (toSend.length > 1000) {
 				for (var i = 0; i < toSend.length / 1000; i++) {
-					await this.send(toSend.substring(1000 * i, 1000*(i+1)), this.token, message)
+					await this.send(toSend.substring(1000 * i, 1000*(i+1)), message)
 				}
 				return;
 			}

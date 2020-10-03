@@ -44,7 +44,7 @@ exports.mod = class python {
 			subProcess.stderr.on('data', (err) => {
 				this.sender.send(err.toString(), message)
 			});
-			subProcess.stdout.on('data', function(data) {
+			subProcess.stdout.on('data', (data) => {
 				console.log('Pausing to reduce spam')
 				subProcess.kill('SIGSTOP')
 				setTimeout( () => {
@@ -56,10 +56,10 @@ exports.mod = class python {
 					subProcess.kill()
 				}
 				let array = toSend.split('\n')
-				if (array.length > 10) {
+				if (array.length > 10 && message.group_id) {
 					toSend = array[0] + '\n' + array[1] + '\n' + array[2] + '\n(Rest of message truncated to reduce spam)'
 				}
-				if (toSend.length > 500) {
+				if (toSend.length > 500 && message.group_id) {
 					toSend = toSend.substring(0, 100) + '\n(Rest of message truncated to reduce spam)'
 				}
 				this.sender.send(toSend, message)
