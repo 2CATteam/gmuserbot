@@ -14,15 +14,15 @@ exports.mod = class glg {
 
 	checkMessage(message) {
 		if (gulagsRegex.test(message.text)) {
-			if (this.initGulag(message, token)) this.gulagify(message, token);
+			if (this.initGulag(message)) this.gulagify(message);
 			return true
 		}
 		else if (pardonRegex.test(message.text)) {
-			if (this.initGulag(message, token)) this.pardon(message, token);
+			if (this.initGulag(message)) this.pardon(message);
 			return true
 		}
 		else if (reportRegex.test(message.text)) {
-			if (this.initGulag(message, token)) this.sendReport(message, token);
+			if (this.initGulag(message)) this.sendReport(message);
 			return true
 		} else return false
 	}

@@ -27,8 +27,8 @@ exports.mod = class comp {
 
 	scheduleMessage(date, text, token, message) {
 		scheduler.scheduleJob(date, function(senderA, textA, tokenA, messageA) {
-			senderA.send(textA, tokenA, messageA)
-		}.bind(null, sender, text, token, message))
+			senderA.send(textA, messageA)
+		}.bind(null, this.sender, text, token, message))
 		this.messages.push({ time: date, text: text, token: token, message: message })
 		fs.writeFileSync(__dirname + '/res/reminders.json', JSON.stringify({jobs: this.messages}, null, "\t"), 'utf8')
 	}

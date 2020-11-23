@@ -6,7 +6,7 @@ const triggers = new Map([
 	[/big\s?$/i, (m) => { return "OOF" }],
 	[/69420|42069/i, (m) => { return "Nice." }],
 	[/ram\s?ranch/i, (m) => { return "I'm actually allergic to ranch so I can't sorry" }],
-	[/I'm\s(.+)$/i, (m) => { return (Math.random() < 0.05 ? "Hi, " + m.match(/I'm\s(.+)$/i)[1] + ", I'm dad!" : null) }],
+	[/I'm\s(.+)$/i, (m) => { return (Math.random() < 0.02 ? "Hi, " + m.match(/I'm\s(.+)$/i)[1] + ", I'm dad!" : null) }],
 	[/^\/empty/i, (m) => { return "‎" }]
 ])
 
